@@ -1,5 +1,19 @@
+* {
+  font-family: 'Montserrat', sans-serif;
+}
+
 .form-box {
   -webkit-box-shadow: 2px 2px 6px;
           box-shadow: 2px 2px 6px;
+}
+
+.to-do-box {
+  -webkit-box-shadow: 2px 2px 6px;
+          box-shadow: 2px 2px 6px;
+}
+
+.to-do-item {
+  border: 1px solid lightgrey;
+  border-radius: 3px;
 }
 /*# sourceMappingURL=style.css.map */
