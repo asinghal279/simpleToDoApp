@@ -80,8 +80,8 @@ function displayNotes(notes, toDoListHtml = "") {
                 <div class="d-flex justify-content-between">
                   <span>${note.text}</span>
                   <div id='${note.id}'>
-                    <button class="btn btn-info btn-sm edit-button">&#9998;</button>
-                    <button class="btn btn-danger btn-sm delete-button">X</button>
+                    <button class="btn btn-outline-info btn-sm edit-button mx-1">&#9998;</button>
+                    <button class="btn btn-outline-danger btn-sm delete-button">X</button>
                   </div>
                 </div>
                 <div class="col-sm-12 p-0">

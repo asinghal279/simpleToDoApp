@@ -15,29 +15,25 @@
   </head>
   <body>
     <h1 class="text-center">TO DO APP</h1>
-    
+    <div class="container">
     <div class="row">
-        <div class="col-sm-12 my-5">
-            <div class="input-group col-sm-6 mx-auto mb-4">
-                <select class="custom-select" id="inputGroupSelect">
-                  
-                  
-                </select>
-                <div class="input-group-append">
-                  <button class="btn btn-outline-primary" type="button">Add Project</button>
-                </div>
+        <div class="col-sm-4 my-5">
+            <div class="input-group col-sm-12 mx-auto mb-4">
+                <select class="custom-select col-sm-12" name="select" id="inputGroupSelect"></select>
             </div>
-            <form action="" class="col-sm-6 mx-auto" id="projectForm">
+            <form action="" class="col-sm-12 mx-auto" id="projectForm">
                 <div class="form-group">
-                    <input type="text" id="projectName" class="form-control mb-4" placeholder="Project Name" required>
+                    <label for="project">Please enter a new Project here :</label>
+                    <input type="text" name="project" id="projectName" class="form-control mb-4" placeholder="Project Name" required>
                     <div class="text-right">
                         <input type="submit" value="Add Project" class="btn btn-outline-success btn-md">
                     </div>
                 </div>
             </form>
         </div>
-        <div class="col-sm-12 mb-5">
-            <div class="col-sm-6 mx-auto p-3 form-box">
+        <div class="col-sm-8 mb-5">
+            <div class="col-sm-10 mx-auto my-4 p-3 form-box">
+                <h4 class="text-center">Please Enter your List Items Below</h3>
                 <form id="item-input" class="col-sm-8 mx-auto">
                     <div class="form-group">
                         <input type="text" id="titleInput" class="form-control mb-4" placeholder="Title" required>
@@ -49,12 +45,13 @@
                     </div>
                 </form>
             </div>
-        </div>
-        <div class="col-sm-12">
-            <div id="toDoList" class="col-sm-6 mx-auto to-do-box p-5">
-                <!-- Lists Will Appear Over Hear -->
+            <div class="col-sm-12">
+                <div id="toDoList" class="col-sm-10 mx-auto to-do-box p-5">
+                </div>
             </div>
         </div>
+        
+    </div>
     </div>
 
 
