@@ -10,4 +10,7 @@
 .to-do-item{
     border: 1px solid lightgrey;
     border-radius: 3px;
+    &:hover{
+        box-shadow: 2px 2px 6px 1px;
+    }
 }

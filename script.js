@@ -4,6 +4,7 @@ const toDoList = document.querySelector("#toDoList");
 const noteInputNode = document.querySelector("#titleInput");
 const tagsInputNode = document.querySelector("#tagsInput");
 
+
 document.querySelector("#item-input").addEventListener("submit", (e) => {
     console.log("here")
   e.preventDefault();
