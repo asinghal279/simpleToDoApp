@@ -18,7 +18,7 @@ document.querySelector("#projectForm").addEventListener("submit", (e) => {
   lists[newId] = [];
   window.localStorage.setItem("lists", JSON.stringify(lists));
   window.localStorage.setItem("projects", JSON.stringify(projects));
-
+  document.querySelector(".alert").style.display = "block";
   projectNameNode.value = null;
   displayOptions(projects);
 });
