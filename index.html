@@ -25,9 +25,9 @@
                   <button class="btn btn-outline-danger btn-sm" id="deleteProjectButton" type="button">Delete Project</button>
                 </div>
             </div>
-            <div class="alert alert-warning alert-dismissible fade show" id="warning" role="alert">
+            <div class="alert alert-warning alert-dismissible fade d-none" id="warning" role="alert">
               <strong>Warning !</strong> There should be atleast one project in the list 
-              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <button type="button" class="close" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
@@ -35,9 +35,9 @@
                 <div class="form-group">
                     <label for="project">Please enter a new Project here :</label>
                     <input type="text" name="project" id="projectName" class="form-control mb-4" placeholder="Project Name" required>
-                    <div class="alert alert-success alert-dismissible fade show" id="projectAddSuccess" role="alert">
+                    <div class="alert alert-success alert-dismissible fade d-none" id="projectAddSuccess" role="alert" data-hide="alert">
                       <strong> Project Added </strong> to the options list. Please go and select your project from the list.
-                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <button type="button" class="close" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                       </button>
                     </div>

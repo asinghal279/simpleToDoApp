@@ -9,17 +9,19 @@ const optionsNode = document.querySelector("#inputGroupSelect");
 let currentProjectId;
 let currentProjectName;
 let notes;
+let counter = 0;
 
 document.querySelector("#projectForm").addEventListener("submit", (e) => {
   e.preventDefault();
   let projectName = projectNameNode.value;
-  let projectsCount = Object.keys(projects).length;
-  let newId = projectsCount;
+  let newId = counter;
+  counter++;
   projects[projectName] = newId;
   lists[newId] = [];
   window.localStorage.setItem("lists", JSON.stringify(lists));
   window.localStorage.setItem("projects", JSON.stringify(projects));
-  document.querySelector("#projectAddSuccess").style.display = "block";
+  document.querySelector("#projectAddSuccess").classList.remove("d-none");
+  document.querySelector("#projectAddSuccess").classList.add("show");
   projectNameNode.value = null;
   displayOptions(projects);
 });
@@ -32,12 +34,15 @@ function displayOptions(projects) {
     );
   });
   optionsNode.innerHTML = optionsHTML;
-  if (optionsNode.options[optionsNode.selectedIndex])
+  if (optionsNode.options[optionsNode.selectedIndex]) {
     currentProjectId = optionsNode.options[optionsNode.selectedIndex].value;
-  currentProjectName = optionsNode.options[optionsNode.selectedIndex].innerHTML;
-  console.log("ProjectName", currentProjectName);
+    currentProjectName =
+      optionsNode.options[optionsNode.selectedIndex].innerHTML;
+    console.log("ProjectName", currentProjectName);
+  }
   if (window.localStorage.getItem("lists")) {
     notes = JSON.parse(window.localStorage.getItem("lists"))[currentProjectId];
+    console.log(notes, currentProjectId);
   }
   displayNotes(notes);
 }
@@ -58,10 +63,13 @@ document
   .addEventListener("click", (e) => {
     if (currentProjectName && Object.keys(projects).length > 1) {
       delete projects[currentProjectName];
+      delete lists[currentProjectId];
       window.localStorage.setItem("projects", JSON.stringify(projects));
+      window.localStorage.setItem("lists", JSON.stringify(lists));
       displayOptions(projects);
     } else {
-      document.querySelector("#warning").style.display = "block";
+      document.querySelector("#warning").classList.remove("d-none");
+      document.querySelector("#warning").classList.add("show");
     }
   });
 
@@ -174,3 +182,12 @@ function addCompleteNodeListeners() {
     });
   });
 }
+
+function hide() {
+  document.querySelectorAll(".close").forEach((button) => {
+    button.addEventListener("click", () => {
+      button.parentElement.classList.add("d-none");
+    });
+  });
+}
+hide();
