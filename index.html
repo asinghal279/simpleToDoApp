@@ -20,12 +20,21 @@
         <div class="col-sm-4 my-5">
             <div class="input-group col-sm-12 mx-auto mb-4">
                 <select class="custom-select col-sm-12" name="select" id="inputGroupSelect"></select>
+                <div class="input-group-append">
+                  <button class="btn btn-outline-danger btn-sm" id="deleteProjectButton" type="button">Delete Project</button>
+                </div>
+            </div>
+            <div class="alert alert-warning alert-dismissible fade show" id="warning" role="alert">
+              <strong>Warning !</strong> There should be atleast one project in the list 
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
             </div>
             <form action="" class="col-sm-12 mx-auto" id="projectForm">
                 <div class="form-group">
                     <label for="project">Please enter a new Project here :</label>
                     <input type="text" name="project" id="projectName" class="form-control mb-4" placeholder="Project Name" required>
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <div class="alert alert-success alert-dismissible fade show" id="projectAddSuccess" role="alert">
                       <strong> Project Added </strong> to the options list. Please go and select your project from the list.
                       <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">&times;</span>

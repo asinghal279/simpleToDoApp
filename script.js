@@ -6,7 +6,8 @@ const noteInputNode = document.querySelector("#titleInput");
 const tagsInputNode = document.querySelector("#tagsInput");
 const projectNameNode = document.querySelector("#projectName");
 const optionsNode = document.querySelector("#inputGroupSelect");
-let currentProject;
+let currentProjectId;
+let currentProjectName;
 let notes;
 
 document.querySelector("#projectForm").addEventListener("submit", (e) => {
@@ -18,7 +19,7 @@ document.querySelector("#projectForm").addEventListener("submit", (e) => {
   lists[newId] = [];
   window.localStorage.setItem("lists", JSON.stringify(lists));
   window.localStorage.setItem("projects", JSON.stringify(projects));
-  document.querySelector(".alert").style.display = "block";
+  document.querySelector("#projectAddSuccess").style.display = "block";
   projectNameNode.value = null;
   displayOptions(projects);
 });
@@ -32,23 +33,36 @@ function displayOptions(projects) {
   });
   optionsNode.innerHTML = optionsHTML;
   if (optionsNode.options[optionsNode.selectedIndex])
-    currentProject = optionsNode.options[optionsNode.selectedIndex].value;
-  console.log("ProjectName", currentProject);
+    currentProjectId = optionsNode.options[optionsNode.selectedIndex].value;
+    currentProjectName = optionsNode.options[optionsNode.selectedIndex].innerHTML;
+  console.log("ProjectName", currentProjectName);
   if (window.localStorage.getItem("lists")) {
-    notes = JSON.parse(window.localStorage.getItem("lists"))[currentProject];
+    notes = JSON.parse(window.localStorage.getItem("lists"))[currentProjectId];
   }
   displayNotes(notes);
 }
 displayOptions(projects);
 
 optionsNode.addEventListener("change", (e) => {
-  currentProject = optionsNode.options[optionsNode.selectedIndex].value;
-  console.log("ProjectName", currentProject);
+  currentProjectId = optionsNode.options[optionsNode.selectedIndex].value;
+  currentProjectName = optionsNode.options[optionsNode.selectedIndex].innerHTML;
+  console.log("ProjectName", currentProjectName);
   if (window.localStorage.getItem("lists")) {
-    notes = JSON.parse(window.localStorage.getItem("lists"))[currentProject];
+    notes = JSON.parse(window.localStorage.getItem("lists"))[currentProjectId];
   }
   displayNotes(notes);
 });
+
+document.querySelector('#deleteProjectButton').addEventListener("click", (e) => {
+  if(currentProjectName && Object.keys(projects).length>1){
+    delete projects[currentProjectName];
+    window.localStorage.setItem("projects", JSON.stringify(projects));
+    displayOptions(projects);
+  }
+  else{
+    document.querySelector("#warning").style.display = "block";
+  }
+})
 
 document.querySelector("#item-input").addEventListener("submit", (e) => {
   console.log(notes);
@@ -59,7 +73,7 @@ document.querySelector("#item-input").addEventListener("submit", (e) => {
     tags: tagsInputNode.value.split(","),
   };
   notes.push(newNote);
-  lists[currentProject] = notes;
+  lists[currentProjectId] = notes;
   window.localStorage.setItem("lists", JSON.stringify(lists));
   noteInputNode.value = null;
   tagsInputNode.value = null;
@@ -108,7 +122,7 @@ function addDeleteNodeListeners() {
       });
       notes.splice(spliceIndex, 1);
       displayNotes(notes);
-      lists[currentProject] = notes;
+      lists[currentProjectId] = notes;
       window.localStorage.setItem("lists", JSON.stringify(lists));
     });
   });
@@ -129,7 +143,7 @@ function updateNodeListeners() {
       displayNotes(notes);
       noteInputNode.value = currentNote.text;
       tagsInputNode.value = currentNote.tags;
-      lists[currentProject] = notes;
+      lists[currentProjectId] = notes;
       window.localStorage.setItem("lists", JSON.stringify(lists));
     });
   });
