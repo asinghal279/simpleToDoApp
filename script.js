@@ -34,7 +34,7 @@ function displayOptions(projects) {
   optionsNode.innerHTML = optionsHTML;
   if (optionsNode.options[optionsNode.selectedIndex])
     currentProjectId = optionsNode.options[optionsNode.selectedIndex].value;
-    currentProjectName = optionsNode.options[optionsNode.selectedIndex].innerHTML;
+  currentProjectName = optionsNode.options[optionsNode.selectedIndex].innerHTML;
   console.log("ProjectName", currentProjectName);
   if (window.localStorage.getItem("lists")) {
     notes = JSON.parse(window.localStorage.getItem("lists"))[currentProjectId];
@@ -53,16 +53,17 @@ optionsNode.addEventListener("change", (e) => {
   displayNotes(notes);
 });
 
-document.querySelector('#deleteProjectButton').addEventListener("click", (e) => {
-  if(currentProjectName && Object.keys(projects).length>1){
-    delete projects[currentProjectName];
-    window.localStorage.setItem("projects", JSON.stringify(projects));
-    displayOptions(projects);
-  }
-  else{
-    document.querySelector("#warning").style.display = "block";
-  }
-})
+document
+  .querySelector("#deleteProjectButton")
+  .addEventListener("click", (e) => {
+    if (currentProjectName && Object.keys(projects).length > 1) {
+      delete projects[currentProjectName];
+      window.localStorage.setItem("projects", JSON.stringify(projects));
+      displayOptions(projects);
+    } else {
+      document.querySelector("#warning").style.display = "block";
+    }
+  });
 
 document.querySelector("#item-input").addEventListener("submit", (e) => {
   console.log(notes);
@@ -71,6 +72,7 @@ document.querySelector("#item-input").addEventListener("submit", (e) => {
     id: Date.now(),
     text: noteInputNode.value,
     tags: tagsInputNode.value.split(","),
+    complete: false,
   };
   notes.push(newNote);
   lists[currentProjectId] = notes;
@@ -96,9 +98,10 @@ function displayNotes(notes, toDoListHtml = "") {
                   <div id='${note.id}'>
                     <button class="btn btn-outline-info btn-sm edit-button mx-1">&#9998;</button>
                     <button class="btn btn-outline-danger btn-sm delete-button">X</button>
+                    <input id="checkbox4a" type="checkbox" name="checkbox">
                   </div>
                 </div>
-                <div class="col-sm-12 p-0">
+                <div class="mt-4">
                     ${tags}
                 </div>
             </div>
@@ -107,6 +110,7 @@ function displayNotes(notes, toDoListHtml = "") {
     toDoList.innerHTML = toDoListHtml;
     addDeleteNodeListeners();
     updateNodeListeners();
+    addCompleteNodeListeners();
   }
 }
 
@@ -143,6 +147,27 @@ function updateNodeListeners() {
       displayNotes(notes);
       noteInputNode.value = currentNote.text;
       tagsInputNode.value = currentNote.tags;
+      lists[currentProjectId] = notes;
+      window.localStorage.setItem("lists", JSON.stringify(lists));
+    });
+  });
+}
+function addCompleteNodeListeners() {
+  let k = document.querySelectorAll("input[name=checkbox]");
+  k.forEach((node) => {
+    node.addEventListener("change", (e) => {
+      console.log(e.target.parentElement);
+      notes.some((note, index) => {
+        if (note.id === +e.target.parentElement.getAttribute("id")) {
+          console.log(e.target.checked);
+          if (e.target.checked) {
+            note.complete = true;
+          } else {
+            note.complete = false;
+          }
+        }
+      });
+      // displayNotes(notes);
       lists[currentProjectId] = notes;
       window.localStorage.setItem("lists", JSON.stringify(lists));
     });
