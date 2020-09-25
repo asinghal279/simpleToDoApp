@@ -176,9 +176,9 @@ function addCompleteNodeListeners() {
           }
         }
       });
-      // displayNotes(notes);
       lists[currentProjectId] = notes;
       window.localStorage.setItem("lists", JSON.stringify(lists));
+      displayNotes(notes);
     });
   });
 }
