@@ -91,6 +91,7 @@ function displayNotes(notes, toDoListHtml = "") {
           `<span class="badge badge-info mr-2 p-2">${tag}</span>`
         );
       });
+      let checked = note.complete ? "checked" : "";
       toDoListHtml = toDoListHtml.concat(`
             <div class="col-sm-12 mb-3 p-2 to-do-item">
                 <div class="d-flex justify-content-between">
@@ -98,7 +99,7 @@ function displayNotes(notes, toDoListHtml = "") {
                   <div id='${note.id}'>
                     <button class="btn btn-outline-info btn-sm edit-button mx-1">&#9998;</button>
                     <button class="btn btn-outline-danger btn-sm delete-button">X</button>
-                    <input id="checkbox4a" type="checkbox" name="checkbox">
+                    <input id="checkbox4a" type="checkbox" name="checkbox" ${checked}>
                   </div>
                 </div>
                 <div class="mt-4">
