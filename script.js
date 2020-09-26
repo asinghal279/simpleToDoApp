@@ -13,7 +13,7 @@ let notes;
 document.querySelector("#projectForm").addEventListener("submit", (e) => {
   e.preventDefault();
   let projectName = projectNameNode.value;
-  let newId = uuidv4(); ;
+  let newId = uuidv4();
   projects[projectName] = newId;
   lists[newId] = [];
   window.localStorage.setItem("lists", JSON.stringify(lists));
@@ -88,8 +88,15 @@ document.querySelector("#item-input").addEventListener("submit", (e) => {
   displayNotes([newNote], toDoList.innerHTML);
 });
 
-function displayNotes(notes, toDoListHtml = "") {
+function displayNotes(notes, completed = false, toDoListHtml = "") {
   if (notes) {
+    if (completed) {
+      notes = notes.filter((note) => {
+        if (note.complete) {
+          return note;
+        }
+      });
+    }
     notes.forEach((note) => {
       let tags = "";
       note.tags.forEach((tag) => {
@@ -99,7 +106,8 @@ function displayNotes(notes, toDoListHtml = "") {
       });
       let checked = note.complete ? "checked" : "";
       let d = new Date();
-      let currentDate = ""+d.getDate()+"/"+(d.getMonth()+1)+"/"+d.getFullYear();
+      let currentDate =
+        "" + d.getDate() + "/" + (d.getMonth() + 1) + "/" + d.getFullYear();
       toDoListHtml = toDoListHtml.concat(`
             <div class="col-sm-12 mb-3 p-2 to-do-item">
                 <div class="d-flex justify-content-between">
@@ -107,7 +115,7 @@ function displayNotes(notes, toDoListHtml = "") {
                   <div id='${note.id}' class="input-group-text">
                     <button class="btn btn-outline-info btn-sm edit-button mx-1">&#9998;</button>
                     <button class="btn btn-outline-danger btn-sm delete-button">X</button>
-                    <input class="check ml-2" type="checkbox" name="checkbox" ${checked}>
+                    <input class="check ml-2 card-check" type="checkbox" name="checkbox" ${checked}>
                   </div>
                 </div>
                 <div class="d-flex justify-content-between mt-4">
@@ -167,7 +175,7 @@ function updateNodeListeners() {
   });
 }
 function addCompleteNodeListeners() {
-  let k = document.querySelectorAll("input[name=checkbox]");
+  let k = document.querySelectorAll(".card-check");
   k.forEach((node) => {
     node.addEventListener("change", (e) => {
       console.log(e.target.parentElement);
@@ -196,3 +204,11 @@ function hide() {
   });
 }
 hide();
+
+document.querySelector(".show-completed").addEventListener("change", (e) => {
+  if (e.target.checked) {
+    displayNotes(notes, true);
+  } else {
+    displayNotes(notes);
+  }
+});
