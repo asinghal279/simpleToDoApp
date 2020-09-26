@@ -9,13 +9,11 @@ const optionsNode = document.querySelector("#inputGroupSelect");
 let currentProjectId;
 let currentProjectName;
 let notes;
-let counter = 0;
 
 document.querySelector("#projectForm").addEventListener("submit", (e) => {
   e.preventDefault();
   let projectName = projectNameNode.value;
-  let newId = counter;
-  counter++;
+  let newId = uuidv4(); ;
   projects[projectName] = newId;
   lists[newId] = [];
   window.localStorage.setItem("lists", JSON.stringify(lists));
