@@ -98,18 +98,25 @@ function displayNotes(notes, toDoListHtml = "") {
         );
       });
       let checked = note.complete ? "checked" : "";
+      let d = new Date();
+      let currentDate = ""+d.getDate()+"/"+(d.getMonth()+1)+"/"+d.getFullYear();
       toDoListHtml = toDoListHtml.concat(`
             <div class="col-sm-12 mb-3 p-2 to-do-item">
                 <div class="d-flex justify-content-between">
                   <span>${note.text}</span>
-                  <div id='${note.id}'>
+                  <div id='${note.id}' class="input-group-text">
                     <button class="btn btn-outline-info btn-sm edit-button mx-1">&#9998;</button>
                     <button class="btn btn-outline-danger btn-sm delete-button">X</button>
-                    <input id="checkbox4a" type="checkbox" name="checkbox" ${checked}>
+                    <input class="check ml-2" type="checkbox" name="checkbox" ${checked}>
                   </div>
                 </div>
-                <div class="mt-4">
+                <div class="d-flex justify-content-between mt-4">
+                  <div class="">
                     ${tags}
+                  </div>
+                  <div class="">
+                    ${currentDate}
+                  </div>
                 </div>
             </div>
     `);

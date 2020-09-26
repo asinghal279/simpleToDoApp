@@ -21,4 +21,15 @@
   -webkit-box-shadow: 2px 2px 6px 1px;
           box-shadow: 2px 2px 6px 1px;
 }
+
+.check {
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+}
+
+.input-group-text {
+  background-color: white !important;
+  border: none !important;
+}
 /*# sourceMappingURL=style.css.map */
