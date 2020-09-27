@@ -1,15 +1,19 @@
+// Global Variables Declaration 
 let lists = JSON.parse(window.localStorage.getItem("lists")) || {};
 const projects = JSON.parse(window.localStorage.getItem("projects")) || {};
+let currentProjectId;
+let currentProjectName;
+let notes;
 
+// Global nodes Declaration
 const toDoList = document.querySelector("#toDoList");
 const noteInputNode = document.querySelector("#titleInput");
 const tagsInputNode = document.querySelector("#tagsInput");
 const projectNameNode = document.querySelector("#projectName");
 const optionsNode = document.querySelector("#inputGroupSelect");
-let currentProjectId;
-let currentProjectName;
-let notes;
 
+
+// Event listener to Add the new project to list
 document.querySelector("#projectForm").addEventListener("submit", (e) => {
   e.preventDefault();
   let projectName = projectNameNode.value;
@@ -24,6 +28,7 @@ document.querySelector("#projectForm").addEventListener("submit", (e) => {
   displayOptions(projects);
 });
 
+// Function to display Notes after each refresh or change.
 function displayOptions(projects) {
   let optionsHTML = "";
   Object.keys(projects).forEach((project) => {
@@ -47,7 +52,8 @@ function displayOptions(projects) {
   else displayNotes(notes);
 }
 displayOptions(projects);
-
+ 
+// Event listener to Change the current Selected projectName and projectID
 optionsNode.addEventListener("change", (e) => {
   currentProjectId = optionsNode.options[optionsNode.selectedIndex].value;
   currentProjectName = optionsNode.options[optionsNode.selectedIndex].innerHTML;
@@ -58,6 +64,7 @@ optionsNode.addEventListener("change", (e) => {
   displayNotes(notes);
 });
 
+// Event listener to Add the delete functionality for Project delete button
 document
   .querySelector("#deleteProjectButton")
   .addEventListener("click", (e) => {
@@ -73,6 +80,7 @@ document
     }
   });
 
+// Event Listener for adding the notes to the list  
 document.querySelector("#item-input").addEventListener("submit", (e) => {
   console.log(notes);
   e.preventDefault();
@@ -92,6 +100,7 @@ document.querySelector("#item-input").addEventListener("submit", (e) => {
   else displayNotes(notes);
 });
 
+// Function to display the notes of the current selected Project
 function displayNotes(notes, completed = false, toDoListHtml = "") {
   if (notes) {
     if (completed) {
@@ -140,6 +149,7 @@ function displayNotes(notes, completed = false, toDoListHtml = "") {
   }
 }
 
+// function to add event listeners to all the delete buttons of the notes.
 function addDeleteNodeListeners() {
   document.querySelectorAll(".delete-button").forEach((node) => {
     node.addEventListener("click", (e) => {
@@ -159,6 +169,8 @@ function addDeleteNodeListeners() {
     });
   });
 }
+
+// Function to add the event listeners to all the update buttons
 function updateNodeListeners() {
   document.querySelectorAll(".edit-button").forEach((node) => {
     node.addEventListener("click", (e) => {
@@ -182,6 +194,8 @@ function updateNodeListeners() {
     });
   });
 }
+
+// Function to add event listeners to all the checkboxes for displaying that the task is complete.
 function addCompleteNodeListeners() {
   let k = document.querySelectorAll(".card-check");
   k.forEach((node) => {
@@ -206,6 +220,7 @@ function addCompleteNodeListeners() {
   });
 }
 
+// Function to hide the alert box once closed and appear again if the wraning or success happens
 function hide() {
   document.querySelectorAll(".close").forEach((button) => {
     button.addEventListener("click", () => {
@@ -215,6 +230,7 @@ function hide() {
 }
 hide();
 
+// Event listener to add the functionality to the filter button.
 document.querySelector(".show-completed").addEventListener("change", (e) => {
   if (e.target.checked) {
     displayNotes(notes, true);
