@@ -42,7 +42,9 @@ function displayOptions(projects) {
     notes = JSON.parse(window.localStorage.getItem("lists"))[currentProjectId];
     console.log(notes, currentProjectId);
   }
-  displayNotes(notes);
+  if (document.querySelector(".show-completed").checked)
+    displayNotes(notes, true);
+  else displayNotes(notes);
 }
 displayOptions(projects);
 
@@ -85,7 +87,9 @@ document.querySelector("#item-input").addEventListener("submit", (e) => {
   window.localStorage.setItem("lists", JSON.stringify(lists));
   noteInputNode.value = null;
   tagsInputNode.value = null;
-  displayNotes([newNote], toDoList.innerHTML);
+  if (document.querySelector(".show-completed").checked)
+    displayNotes(notes, true);
+  else displayNotes(notes);
 });
 
 function displayNotes(notes, completed = false, toDoListHtml = "") {
@@ -147,7 +151,9 @@ function addDeleteNodeListeners() {
         }
       });
       notes.splice(spliceIndex, 1);
-      displayNotes(notes);
+      if (document.querySelector(".show-completed").checked)
+        displayNotes(notes, true);
+      else displayNotes(notes);
       lists[currentProjectId] = notes;
       window.localStorage.setItem("lists", JSON.stringify(lists));
     });
@@ -166,7 +172,9 @@ function updateNodeListeners() {
         }
       });
       notes.splice(spliceIndex, 1);
-      displayNotes(notes);
+      if (document.querySelector(".show-completed").checked)
+        displayNotes(notes, true);
+      else displayNotes(notes);
       noteInputNode.value = currentNote.text;
       tagsInputNode.value = currentNote.tags;
       lists[currentProjectId] = notes;
@@ -191,7 +199,9 @@ function addCompleteNodeListeners() {
       });
       lists[currentProjectId] = notes;
       window.localStorage.setItem("lists", JSON.stringify(lists));
-      displayNotes(notes);
+      if (document.querySelector(".show-completed").checked)
+        displayNotes(notes, true);
+      else displayNotes(notes);
     });
   });
 }
