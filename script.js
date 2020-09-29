@@ -1,9 +1,10 @@
-// Global Variables Declaration 
+// Global Variables Declaration
 let lists = JSON.parse(window.localStorage.getItem("lists")) || {};
 const projects = JSON.parse(window.localStorage.getItem("projects")) || {};
 let currentProjectId;
 let currentProjectName;
 let notes;
+let idToBeUpdated;
 
 // Global nodes Declaration
 const toDoList = document.querySelector("#toDoList");
@@ -11,7 +12,6 @@ const noteInputNode = document.querySelector("#titleInput");
 const tagsInputNode = document.querySelector("#tagsInput");
 const projectNameNode = document.querySelector("#projectName");
 const optionsNode = document.querySelector("#inputGroupSelect");
-
 
 // Event listener to Add the new project to list
 document.querySelector("#projectForm").addEventListener("submit", (e) => {
@@ -45,14 +45,14 @@ function displayOptions(projects) {
   }
   if (window.localStorage.getItem("lists")) {
     notes = JSON.parse(window.localStorage.getItem("lists"))[currentProjectId];
-    console.log(notes, currentProjectId);
+    // console.log(notes, currentProjectId);
   }
   if (document.querySelector(".show-completed").checked)
     displayNotes(notes, true);
   else displayNotes(notes);
 }
 displayOptions(projects);
- 
+
 // Event listener to Change the current Selected projectName and projectID
 optionsNode.addEventListener("change", (e) => {
   currentProjectId = optionsNode.options[optionsNode.selectedIndex].value;
@@ -80,7 +80,7 @@ document
     }
   });
 
-// Event Listener for adding the notes to the list  
+// Event Listener for adding the notes to the list
 document.querySelector("#item-input").addEventListener("submit", (e) => {
   console.log(notes);
   e.preventDefault();
@@ -126,7 +126,7 @@ function displayNotes(notes, completed = false, toDoListHtml = "") {
                 <div class="d-flex justify-content-between">
                   <span>${note.text}</span>
                   <div id='${note.id}' class="input-group-text">
-                    <button class="btn btn-outline-info btn-sm edit-button mx-1">&#9998;</button>
+                    <button class="btn btn-outline-info btn-sm edit-button mx-1" data-toggle="modal" data-target="#myModal">&#9998;</button>
                     <button class="btn btn-outline-danger btn-sm delete-button">X</button>
                     <input class="check ml-2 card-check" type="checkbox" name="checkbox" ${checked}>
                   </div>
@@ -179,11 +179,14 @@ function updateNodeListeners() {
       notes.some((note, index) => {
         if (note.id === +e.target.parentElement.getAttribute("id")) {
           spliceIndex = index;
+          idToBeUpdated = note.id;
           currentNote = note;
           return true;
         }
       });
-      notes.splice(spliceIndex, 1);
+      // notes.splice(spliceIndex, 1);
+      document.querySelector("#title-name").value = currentNote.text;
+      document.querySelector("#tags-text").value = currentNote.tags;
       if (document.querySelector(".show-completed").checked)
         displayNotes(notes, true);
       else displayNotes(notes);
@@ -237,4 +240,21 @@ document.querySelector(".show-completed").addEventListener("change", (e) => {
   } else {
     displayNotes(notes);
   }
+});
+
+document.querySelector("#update-button").addEventListener("click", (e) => {
+  notes.some((note, index) => {
+    if (note.id === idToBeUpdated) {
+      note.text = document.querySelector("#title-name").value;
+      note.tags = document.querySelector("#tags-text").value.split(",");
+      note.complete = false;
+      idToBeUpdated = null;
+      return true;
+    }
+  });
+  lists[currentProjectId] = notes;
+  window.localStorage.setItem("lists", JSON.stringify(lists));
+  if (document.querySelector(".show-completed").checked)
+    displayNotes(notes, true);
+  else displayNotes(notes);
 });
